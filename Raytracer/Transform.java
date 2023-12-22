@@ -5,7 +5,7 @@
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Transform
+public class Transform implements Component
 {
     private Vector3 position;
     private Vector3 rotation;
@@ -17,6 +17,6 @@ public class Transform
     }
     public Transform()
     {
-        
+        this(new Vector3(), new Vector3());
     }
 }

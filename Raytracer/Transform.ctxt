@@ -3,4 +3,6 @@ comment0.target=Transform
 comment0.text=\r\n\ Write\ a\ description\ of\ class\ Transform\ here.\r\n\r\n\ @author\ (your\ name)\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
 comment1.params=pos\ rot
 comment1.target=Transform(Vector3,\ Vector3)
-numComments=2
+comment2.params=
+comment2.target=Transform()
+numComments=3
