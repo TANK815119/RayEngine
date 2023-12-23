@@ -5,9 +5,13 @@
  * @author (your name)
  * @version (a version number or a date)
  */
-public interface Component
+public abstract class Component
 {
-    /**
-     * write some methods for each of the compoinents
-     */
+    private GameObject gameObject;
+    public Component(GameObject gameObject)
+    {
+        this.gameObject = gameObject;
+    }
+    public GameObject gameObject(){return gameObject;}
+    //Note: no gameObject mutator because components won't ever be dissconected from their game object
 }

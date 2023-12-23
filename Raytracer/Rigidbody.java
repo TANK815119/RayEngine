@@ -5,11 +5,12 @@
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Rigidbody
+public class Rigidbody extends Component
 {
     private Transform transform;
-    public Rigidbody(Transform trans)
+    public Rigidbody(GameObject gameObject)
     {
-        transform = trans;
+        super(gameObject);
+        transform = gameObject.transform();
     }
 }

@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Vector3
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ Vector3\ here.\r\n\r\n\ @author\ (your\ name)\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment0.text=\n\ Write\ a\ description\ of\ class\ Vector3\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
 comment1.params=x\ y\ z
 comment1.target=Vector3(int,\ int,\ int)
 comment2.params=
