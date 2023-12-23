@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Transform
-comment0.text=\n\ The\ transform\ component\ is\ where\ the\ object\ is\n\ It\ includes\ positional\ and\ rotation\ data\n\ but\ it\ also\ includes\ where\ the\ gameObject\ is\ relative\n\ to\ other\ gameObjects\ in\ the\ heirarchy\n
+comment0.text=\r\n\ The\ transform\ component\ is\ where\ the\ object\ is\r\n\ It\ includes\ positional\ and\ rotation\ data\r\n\ but\ it\ also\ includes\ where\ the\ gameObject\ is\ relative\r\n\ to\ other\ gameObjects\ in\ the\ heirarchy\r\n
 comment1.params=gameObject\ pos\ rot
 comment1.target=Transform(GameObject,\ Vector3,\ Vector3)
 comment10.params=child

@@ -1,33 +1,53 @@
+import java.util.ArrayList;
 
 /**
- * Write a description of class Scene here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The scene will just hold a list of all the parent transforms for now
+ * through this class, all gameObjects will be accesible
  */
 public class Scene
 {
-    // instance variables - replace the example below with your own
-    private int x;
-
-    /**
-     * Constructor for objects of class Scene
-     */
+    private ArrayList<Transform> rootTransformList;
+    public Scene(ArrayList<Transform> transList)
+    {
+        rootTransformList = transList;
+    }
     public Scene()
     {
-        // initialise instance variables
-        x = 0;
+        this(new ArrayList<Transform>());
     }
-
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public int sampleMethod(int y)
+    
+    // root transform list getter, setter
+    public void setRootTransformList(ArrayList<Transform> transList)
     {
-        // put your code here
-        return x + y;
+        rootTransformList = transList;
+    }
+    public ArrayList<Transform> getRootTransformList()
+    {
+        return rootTransformList;
+    }
+    
+    // individual gameObject getter, setter
+    public void addRootGameObject(GameObject gameObject)
+    {
+        rootTransformList.add(gameObject.transform());
+    }
+    // simple linear search to fetch specific game objects by name
+    // im not sure how neccessary this accesor is
+    public GameObject getRootGameObject(String name) throws Exception
+    {
+        GameObject rootObject = null;
+        for(int i = 0; i < rootTransformList.size(); i++)
+        {
+            if(rootTransformList.get(i).gameObject().name().equals(name))
+            {
+                rootObject = rootTransformList.get(i).gameObject();
+                break;
+            }
+        }
+        if(rootObject == null)
+        {
+            throw new Exception("Root GameObject not found");
+        }
+        return rootObject;
     }
 }

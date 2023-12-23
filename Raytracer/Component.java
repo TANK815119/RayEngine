@@ -1,9 +1,7 @@
 
 /**
- * Write a description of interface Component here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * Component is an abstract that defines that all components
+ * must have an immutable connection to their gameObject
  */
 public abstract class Component
 {

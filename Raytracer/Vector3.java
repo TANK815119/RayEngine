@@ -1,9 +1,8 @@
 
 /**
- * Write a description of class Vector3 here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The Vector3 as written here will act as a
+ * simple data type that will be used throught
+ * the project in multiple different ways
  */
 public class Vector3
 {

@@ -1,9 +1,8 @@
 
 /**
- * Write a description of class Rigidbody here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The Rigidbody will handle the physics data ofa gven oject
+ * it will also handle forces applied to that object
+ * it is a component
  */
 public class Rigidbody extends Component
 {

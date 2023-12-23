@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=GameObject
-comment0.text=\n\ Write\ a\ description\ of\ class\ GameObject\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment0.text=\r\n\ The\ Gameobject\ is\ essentially\ storage\r\n\ for\ all\ the\ components\ that\ handle\r\n\ the\ "reality"\ of\ the\ scene\r\n\ it\ also\ handles\ tags\ which\ are\ useful\ to\ users\r\n
 comment1.params=n
 comment1.target=GameObject(java.lang.String)
 comment2.params=
@@ -11,4 +11,12 @@ comment4.params=
 comment4.target=Transform\ transform()
 comment5.params=trans
 comment5.target=void\ transform(Transform)
-numComments=6
+comment6.params=
+comment6.target=java.lang.String\ name()
+comment7.params=n
+comment7.target=void\ name(java.lang.String)
+comment8.params=
+comment8.target=java.lang.String\ tag()
+comment9.params=t
+comment9.target=void\ tag(java.lang.String)
+numComments=10

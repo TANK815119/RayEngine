@@ -1,16 +1,17 @@
 import java.util.*;
 import java.util.ArrayList;
 /**
- * Write a description of class GameObject here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The Gameobject is essentially storage
+ * for all the components that handle
+ * the "reality" of the scene
+ * it also handles tags which are useful to users
  */
 public class GameObject
 {
     private Transform transform;
     private ArrayList<Component> componentList;
     private String name;
+    private String tag;
     
     public GameObject(String n)
     {
@@ -44,4 +45,11 @@ public class GameObject
     public Transform transform() { return transform; }
     public void transform(Transform trans) { transform = trans; }
     
+    //name getter,setter
+    public String name() { return name; }
+    public void name(String n) { name = n; }
+    
+    //name getter,setter
+    public String tag() { return tag; }
+    public void tag(String t) { tag = t; }
 }

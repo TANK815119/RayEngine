@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Component
-comment0.text=\n\ Write\ a\ description\ of\ interface\ Component\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment0.text=\r\n\ Component\ is\ an\ abstract\ that\ defines\ that\ all\ components\r\n\ must\ have\ an\ immutable\ connection\ to\ their\ gameObject\r\n
 comment1.params=gameObject
 comment1.target=Component(GameObject)
 comment2.params=
