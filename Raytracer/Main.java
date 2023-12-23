@@ -9,10 +9,9 @@ public class Main
 {
     public static void main(String args[])
     {
-        boolean runTime = true;
-        while(runTime)
-        {
-            
-        }
+        Scene scene = new Scene();
+        GameObject gameObject = new GameObject("My Object");
+        scene.addRootGameObject(gameObject);
+        gameObject.addComponent(CubeMesh.class);
     }
 }

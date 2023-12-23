@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=CubeMesh
-comment0.text=\r\n\ the\ face\ data\ for\ a\ CubeMesh\r\n
+comment0.text=\r\n\ the\ face\ data\ for\ a\ CubeMesh\r\n\ it\ will\ be\ made\ of\ triangles\ like\ all\ meshes\r\n\ in\ this\ engine\r\n
 comment1.params=gameObject
 comment1.target=CubeMesh(GameObject)
 numComments=2
