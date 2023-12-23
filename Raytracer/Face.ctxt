@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.target=Face
+comment0.text=\r\n\ The\ Face\ class\ contains\ all\ the\ neccessary\ information\ of\ a\ "face"\ of\ a\ polgyon\r\n\ It\ has\ an\ array\ that\ stores\ the\ Vector3\ points\ that\ make\ up\ the\ face\r\n\ It\ also\ contains\ the\ information\ for\ the\ normal\ of\ the\ face,\ which\ is\ also\ stored\ in\ Vector3\r\n\ The\ normal\ data\ helps\ reflect\ arrays\ properly\ in\ the\ raycaster\r\n\ all\ of\ this\ information\ is\ then\ used\ to\ calculate\ whther\ a\ ray\ interesects\ with\ it\r\n\ and\ then\ bounce\ it\r\n\ \r\n\ Vertext\ Textures\ will\ be\ necessary\ for\ image\ textures,\ but\ ill\ save\ that\ for\ later\r\n
+comment1.params=pointArr\ normal
+comment1.target=Face(Vector3[],\ Vector3)
+numComments=2

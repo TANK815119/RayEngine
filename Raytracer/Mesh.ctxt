@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.target=Mesh
+comment0.text=\r\n\ Mesh\ contains\ the\ information\ necessary\ to\ contruct\r\n\ a\ visible\ mesh\ through\ points\ that\ makeup\ traingles\ and\ normals\r\n\ verticies\ are\ packaged\ with\ normals\ in\ the\ Face\ class\r\n
+comment1.params=gameObject\ pointArray
+comment1.target=Mesh(GameObject,\ Face[])
+comment2.params=gameObject
+comment2.target=Mesh(GameObject)
+comment3.params=pointArray
+comment3.target=void\ setFaces(Face[])
+comment4.params=
+comment4.target=Face[]\ getFaces()
+numComments=5
