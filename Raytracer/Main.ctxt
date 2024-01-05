@@ -7,4 +7,6 @@ comment2.params=x\ y\ width\ height\ r\ g\ b
 comment2.target=void\ drawQuad(float,\ float,\ float,\ float,\ float,\ float,\ float)
 comment3.params=camera\ pixelBuffer
 comment3.target=void\ render(Camera,\ int[])
-numComments=4
+comment4.params=camera\ renderPipe
+comment4.target=void\ initWindow(Camera,\ RenderingPipeline)
+numComments=5

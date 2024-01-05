@@ -46,62 +46,10 @@ public class Main
         //--make a light object--(later)
 
         RenderingPipeline renderPipe = new RenderingPipeline(CPURenderer.class);
-        renderPipe.render(camera); // @TODO have this return a pixelBuffer
         // put something here like
         // <graphicsAPI>.set(renderPipe.GPUCPURender(camera));
 
-        // Initialize GLFW
-        GLFWErrorCallback errorCallback;
-        glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
-        if (!glfwInit()) {
-            throw new IllegalStateException("Unable to initialize GLFW");
-        }
-
-        // Configure GLFW
-        glfwDefaultWindowHints();
-        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-
-        // Create the window
-        System.out.println("Width: " + camera.getPixelWidth());
-        System.out.println("Height: " + camera.getPixelHeight());
-        long window = glfwCreateWindow(camera.getPixelWidth(), camera.getPixelHeight(), "Raytracer", NULL, NULL);
-        if (window == NULL) {
-            throw new RuntimeException("Failed to create the GLFW window");
-        }
-
-        // Center the window on the screen
-        GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        glfwSetWindowPos(window, (vidMode.width() - camera.getPixelWidth()) / 2, (vidMode.height() - camera.getPixelHeight()) / 2);
-
-        // Make the OpenGL context current
-        glfwMakeContextCurrent(window);
-        glfwSwapInterval(1); // Enable v-sync
-
-        // Make the window visible
-        glfwShowWindow(window);
-
-        // Set up OpenGL
-        GL.createCapabilities();
-
-        // Set the clear color (background color)
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-        // Main loop
-        while (!glfwWindowShouldClose(window)) {
-            // Render
-            glClear(GL_COLOR_BUFFER_BIT);
-            
-            
-            render(camera, renderPipe.render(camera));
-
-            // Swap buffers and poll events
-            glfwSwapBuffers(window);
-            glfwPollEvents();
-        }
-
-        // Terminate GLFW
-        glfwTerminate();
+        initWindow(camera, renderPipe);
     }
 
     private static void drawQuad(float x, float y, float width, float height, float r, float g, float b) {
@@ -143,5 +91,61 @@ public class Main
         
         GL11.glEnd();
         //Renderer.renderCPU(camera);
+    }
+    
+    private static void initWindow(Camera camera, RenderingPipeline renderPipe)
+    {
+        // Initialize GLFW
+        GLFWErrorCallback errorCallback;
+        glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
+        if (!glfwInit()) {
+            throw new IllegalStateException("Unable to initialize GLFW");
+        }
+
+        // Configure GLFW
+        glfwDefaultWindowHints();
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
+        // Create the window
+        //System.out.println("Width: " + camera.getPixelWidth());
+        //System.out.println("Height: " + camera.getPixelHeight());
+        long window = glfwCreateWindow(camera.getPixelWidth(), camera.getPixelHeight(), "Raytracer", NULL, NULL);
+        if (window == NULL) {
+            throw new RuntimeException("Failed to create the GLFW window");
+        }
+
+        // Center the window on the screen
+        GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        glfwSetWindowPos(window, (vidMode.width() - camera.getPixelWidth()) / 2, (vidMode.height() - camera.getPixelHeight()) / 2);
+
+        // Make the OpenGL context current
+        glfwMakeContextCurrent(window);
+        glfwSwapInterval(1); // Enable v-sync
+
+        // Make the window visible
+        glfwShowWindow(window);
+
+        // Set up OpenGL
+        GL.createCapabilities();
+
+        // Set the clear color (background color)
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+        // Main loop
+        while (!glfwWindowShouldClose(window)) {
+            // Render
+            glClear(GL_COLOR_BUFFER_BIT);
+            
+            
+            render(camera, renderPipe.render(camera));
+
+            // Swap buffers and poll events
+            glfwSwapBuffers(window);
+            glfwPollEvents();
+        }
+
+        // Terminate GLFW
+        glfwTerminate();
     }
 }
