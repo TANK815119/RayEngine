@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.system.MemoryStack;
+import java.awt.Color;
 /**
  * The RenderingPipeline here won't do much
  * It'll essentially be the interface for the
@@ -47,19 +48,19 @@ public class RenderingPipeline <T extends Renderer>
     public static Vector3 colorToVector(int pixelRGB)
     {
         //decode the pixelColor into a Vector3 with rgb being from 0 to 1
-        Vector3 floatColor = new Vector3(1, 0, 1);
+        Vector3 pixelVec = new Vector3(1, 0, 1);
         
         //convert rgb into java.awt.color Color object
-        
+        Color pixelColor = new Color(pixelRGB);
         //getRed and assign to vec3(float)
-        
+        pixelVec.x = pixelColor.getRed() * 1f/255f;
         //getBlue and assign to vec3(float)
-        
+        pixelVec.y = pixelColor.getGreen() * 1f/255f;
         //getGreen and assign to vec3(float)
-        
+        pixelVec.z = pixelColor.getBlue() * 1f/255f;
         //for each, clamp to 0-1
         
-        return floatColor;
+        return pixelVec;
     }
 
     public static int createTexture(int[] pixelBuffer, int width, int height) {

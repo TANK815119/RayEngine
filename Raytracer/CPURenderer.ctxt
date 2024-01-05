@@ -5,6 +5,4 @@ comment1.params=
 comment1.target=CPURenderer()
 comment2.params=camera
 comment2.target=int[]\ renderCPU(Camera)
-comment3.params=camera
-comment3.target=void\ renderCPUShit(Camera)
-numComments=4
+numComments=3

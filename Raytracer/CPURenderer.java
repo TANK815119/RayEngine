@@ -28,6 +28,12 @@ public class CPURenderer implements Renderer
                 Color pixelColor = new Color(
                         (int)(Math.random() * 255), (int)(Math.random() * 255), (int)(Math.random() * 255)
                     ); // random color
+                if(y % 8 == 0 || (y+1) % 8 == 0|| (y-1) % 8 == 0)
+                {
+                    pixelColor = new Color(
+                        (int)(Math.random() * 100), (int)(Math.random() * 100), (int)(Math.random() * 100)
+                    ); // random color
+                }
                 pixelBuffer[y * width + x] = pixelColor.getRGB(); // Store the color in the buffer
             }
         }
@@ -35,20 +41,5 @@ public class CPURenderer implements Renderer
         //System.out.printf("%08X ", pixelBuffer[0]);
 
         return pixelBuffer;
-    }
-
-    public static void renderCPUShit(Camera camera)
-    {
-        float height = camera.getPixelHeight();
-        float width = camera.getPixelWidth();
-        GL11.glBegin(GL11.GL_POINTS);
-
-        for (float y = -1; y < 1; y+=(2/height)) {
-            for (float x = -1; x < 1; x+=(2/width)) {
-                GL11.glColor3f((float)Math.random(), (float)Math.random(), (float)Math.random());
-                GL11.glVertex2f(x, y);
-            }
-        }
-        GL11.glEnd();
     }
 }
