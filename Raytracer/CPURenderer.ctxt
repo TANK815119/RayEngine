@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=CPURenderer
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ CPURenderer\ here.\r\n\r\n\ @author\ (your\ name)\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=
+comment1.target=CPURenderer()
+comment2.params=camera
+comment2.target=int[]\ renderCPU(Camera)
+comment3.params=camera
+comment3.target=void\ renderCPUShit(Camera)
+numComments=4

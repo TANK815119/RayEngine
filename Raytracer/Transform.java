@@ -30,10 +30,12 @@ public class Transform extends Component
     //positional getter,sette
     public Vector3 poisiton() { return position; }
     public void position(Vector3 pos) { position = pos; }
+    public void position(float x, float y, float z) { position = new Vector3(x, y, z); }
     
     //rotation getter,setter
     public Vector3 rotation() { return rotation; }
     public void rotation(Vector3 rot) { rotation = rot; }
+    public void rotation(float x, float y, float z) { rotation = new Vector3(x, y, z); }
     
     //parent getter,setter
     public Transform parent() { return parent; }

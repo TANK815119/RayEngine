@@ -6,7 +6,7 @@
 public class Mesh extends Component
 {
     private Face[] faceArr;
-    public Mesh(GameObject gameObject, Face[] pointArray)
+    public Mesh(GameObject gameObject, Face[] faceArr)
     {
         super(gameObject);
         this.faceArr = faceArr;
@@ -17,7 +17,7 @@ public class Mesh extends Component
     }
     
     // face array getter, settr
-    public void setFaces(Face[] pointArray)
+    public void setFaces(Face[] faceArr)
     {
         this.faceArr = faceArr;
     }

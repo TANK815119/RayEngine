@@ -9,6 +9,7 @@ public class CubeMesh extends Mesh
     public CubeMesh(GameObject gameObject)
     {
         super(gameObject, null);
+        //System.out.println("called");
         //put data for Cube Mesh here
         //doing this manually will allow me to wrap my head around the OBJReader better
         Face[] faceArr = new Face[12];

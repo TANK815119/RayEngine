@@ -1,6 +1,22 @@
 #BlueJ class context
 comment0.target=Camera
 comment0.text=\r\n\ The\ Camera\ will\ \r\n
-comment1.params=gameObject
-comment1.target=Camera(GameObject)
-numComments=2
+comment1.params=gameObject\ FOV\ pixelWidth\ pixelHeight
+comment1.target=Camera(GameObject,\ float,\ int,\ int)
+comment2.params=gameObject\ FOV
+comment2.target=Camera(GameObject,\ float)
+comment3.params=gameObject
+comment3.target=Camera(GameObject)
+comment4.params=
+comment4.target=float\ getFOV()
+comment5.params=FOV
+comment5.target=void\ setFOV(float)
+comment6.params=
+comment6.target=int\ getPixelWidth()
+comment7.params=pixelWidth
+comment7.target=void\ setPixelWidth(int)
+comment8.params=
+comment8.target=int\ getPixelHeight()
+comment9.params=pixelHeight
+comment9.target=void\ setPixelHeight(int)
+numComments=10

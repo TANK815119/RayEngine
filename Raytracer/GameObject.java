@@ -24,17 +24,17 @@ public class GameObject
 
     public GameObject(){this("DefaultGameObject");}
 
-    //returns highest-index component of given type
-    public <T extends Component> Component getComponent(Class<T> componentType) throws Exception
+    //returns lowest-index component of given type
+    public <T extends Component> T getComponent(Class<T> componentType)
     {
         try
         {
-            Component component = null;
+            T component = null;
             for (int i = 0; i < componentList.size(); i++)
             {
                 if(componentType.isInstance(componentList.get(i)))
                 {
-                    component = componentList.get(i);
+                    component = (T)componentList.get(i);
                     break;
                 }
             }
@@ -50,25 +50,36 @@ public class GameObject
             return null;
         }
     }
-
+    
+    //adds component of class type
+    // i.e. ExampleGameObject.addComponent(Mesh.class)
     public <T extends Component> void addComponent(Class<T> componentType)
     {
         try {
             // Get the constructor of the class
-            Constructor<T> constructor = componentType.getConstructor(GameObject.class);
+            //the "GameObject.class" specifies which the specific constructor to be used
+            //in this case, it specifies the constructor must have a GameObject gameObject parameter
+            Constructor<T> constructor = componentType.getConstructor(GameObject.class); // there was a parameter "GameObject.class" here
 
             // Create a new instance using the constructor
-            T instance = constructor.newInstance(this);
+            T component = constructor.newInstance(this);
+            
+            //add the created component to the arraylist
+            componentList.add(component);
         } catch (Exception e) {
             // Handle exceptions
             e.printStackTrace();
         }
     }
-
-    // public <T extends Component> void addComponent(T component)
-    // {
-    // componentList.add(component);
-    // }
+    
+    //a class like this one is useful for more rhobust component adding
+    //you can use it to first make a component with its constructor and
+    //all the parameters, and then use this method to properly add it to the
+    //component arraylist
+    public <T extends Component> void addComponent(T component)
+    {
+    componentList.add(component);
+    }
 
     //tranform getter,setter
     public Transform transform() { return transform; }

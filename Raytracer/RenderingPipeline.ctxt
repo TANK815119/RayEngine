@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.target=RenderingPipeline
+comment0.text=\r\n\ The\ RenderingPipeline\ here\ won't\ do\ much\r\n\ It'll\ essentially\ be\ the\ interface\ for\ the\r\n\ use\ of\ different\ rendering\ techniques\r\n\ itll\ be\ able\ to\ create\ the\ classes\ that\ represent\r\n\ different\ techniques\ and\ itll\ be\ able\ to\ turn\ that\ information\r\n\ either\ into\ an\ array\ of\ values(slow)\ or\ a\ compute\ shader(fast)\r\n\ \r\n\ I\ probably\ don't\ need\ getter,setter\ for\ the\ renderer(probably)(for\ now)\r\n\ having\ this\ pipeline\ structure\ like\ this\ may\ be\ overly\ compex\r\n\ but\ I\ think\ it\ may\ be\ useful\ in\ the\ future\r\n
+comment1.params=renderingTechnique
+comment1.target=RenderingPipeline(java.lang.Class)
+comment2.params=camera
+comment2.target=int[]\ render(Camera)
+comment3.params=pixelRGB
+comment3.target=Vector3\ colorToVector(int)
+comment4.params=pixelBuffer\ width\ height
+comment4.target=int\ createTexture(int[],\ int,\ int)
+numComments=5

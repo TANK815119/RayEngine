@@ -29,27 +29,27 @@ public class LWJGLTest {
         //-Djava.library.path=C:\Users\reidj\Git Projects\RayEngine\Raytracer\libs
         //-Djava.library.path=C:/Users/reidj/Git Projects/RayEngine/Raytracer/libs
         //System.setProperty("org.lwjgl.librarypath", new File("libs\\lwjgl-glfw.jar\\").getAbsolutePath());
-        String libPath = new File("lwjgl3").getAbsolutePath();
-        File libsDirectory = new File(libPath);
-        System.out.println("Setting org.lwjgl.librarypath to: " + libPath);
-        System.setProperty("org.lwjgl.librarypath", libPath);
+        // String libPath = new File("lwjgl3").getAbsolutePath();
+        // File libsDirectory = new File(libPath);
+        //System.out.println("Setting org.lwjgl.librarypath to: " + libPath);
+        //System.setProperty("org.lwjgl.librarypath", libPath);
         
          // Check if the directory exists
-        if (libsDirectory.exists() && libsDirectory.isDirectory()) {
-            // List all files in the directory
-            File[] files = libsDirectory.listFiles();
+        // if (libsDirectory.exists() && libsDirectory.isDirectory()) {
+            // // List all files in the directory
+            // File[] files = libsDirectory.listFiles();
 
-            // Print the names of the files
-            if (files != null) {
-                for (File file : files) {
-                    System.out.println("File: " + file.getName());
-                }
-            } else {
-                System.out.println("No files found in the 'libs' directory.");
-            }
-        } else {
-            System.out.println("The 'libs' directory does not exist.");
-        }
+            // // Print the names of the files
+            // if (files != null) {
+                // for (File file : files) {
+                    // //System.out.println("File: " + file.getName());
+                // }
+            // } else {
+                // System.out.println("No files found in the 'libs' directory.");
+            // }
+        // } else {
+            // System.out.println("The 'libs' directory does not exist.");
+        // }
 
         // Initialize GLFW
         if (!glfwInit()) {
@@ -88,7 +88,19 @@ public class LWJGLTest {
         while (!glfwWindowShouldClose(window)) {
             // Render
             glClear(GL_COLOR_BUFFER_BIT);
-
+            
+            // Draw a colored triangle (example)
+            glBegin(GL_TRIANGLES);
+            glColor3f(1.0f, 0.0f, 0.0f); // Red
+            glVertex2f(-0.6f, -0.5f);
+            
+            glColor3f(0.0f, 1.0f, 0.0f); // Green
+            glVertex2f(0.6f, -0.5f);
+            
+            glColor3f(0.0f, 0.0f, 1.0f); // Blue
+            glVertex2f(0.0f, 0.5f);
+            glEnd();
+            
             // Swap buffers and poll events
             glfwSwapBuffers(window);
             glfwPollEvents();

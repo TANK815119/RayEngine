@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.target=Renderer
+comment0.text=\r\n\ Every\ Renderer\ will\ need\ to\ be\ able\ to\:\r\n\ (necessary?)store\ info\ in\ a\ CPU-readable\ 2d\ array\ if\ necessary\r\n\ (necessary?)\ store\ into\ in\ a\ GPU-readable\ compute\ shader(later)\r\n\ (not\ really\ take\ any\ information\ in\ its\ constructor)\r\n\ have\ some\ method\ that\ spits\ out\ a\ CPU-readable\ 2d\ array\r\n\ have\ some\ method\ that\ spits\ out\ a\ GPU-readable\ compute\ shader\r\n
+comment1.params=camera
+comment1.target=int[]\ renderCPU(Camera)
+numComments=2
