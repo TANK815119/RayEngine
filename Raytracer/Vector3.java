@@ -57,4 +57,30 @@ public class Vector3
             e.printStackTrace();
         }
     }
+    
+    //matrix math shit @TODO
+    public Vector3 add(Vector3 other)
+    {
+        return new Vector3(0, 0, 0);
+    }
+    public Vector3 subtract(Vector3 other)
+    {
+        return new Vector3(0, 0, 0);
+    }
+    public Vector3 multiply(Vector3 other)
+    {
+        return new Vector3(0, 0, 0);
+    }
+    public Vector3 divide(Vector3 other)
+    {
+        return new Vector3(0, 0, 0);
+    }
+    public float dotProduct(Vector3 other)
+    {
+        return -1;
+    }
+    public Vector3 crossProduct(Vector3 other)
+    {
+        return new Vector3(0, 0, 0);
+    }
 }

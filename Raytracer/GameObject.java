@@ -13,6 +13,7 @@ public class GameObject
     private ArrayList<Component> componentList;
     private String name;
     private String tag;
+    private Scene scene;
 
     public GameObject(String n)
     {
@@ -50,7 +51,20 @@ public class GameObject
             return null;
         }
     }
-    
+
+    //checks if this GameObejct has a certain component
+    public <T extends Component> boolean hasComponent(Class<T> componentType)
+    {
+        for (int i = 0; i < componentList.size(); i++)
+        {
+            if(componentType.isInstance(componentList.get(i)))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     //adds component of class type
     // i.e. ExampleGameObject.addComponent(Mesh.class)
     public <T extends Component> void addComponent(Class<T> componentType)
@@ -63,7 +77,7 @@ public class GameObject
 
             // Create a new instance using the constructor
             T component = constructor.newInstance(this);
-            
+
             //add the created component to the arraylist
             componentList.add(component);
         } catch (Exception e) {
@@ -71,14 +85,14 @@ public class GameObject
             e.printStackTrace();
         }
     }
-    
+
     //a class like this one is useful for more rhobust component adding
     //you can use it to first make a component with its constructor and
     //all the parameters, and then use this method to properly add it to the
     //component arraylist
     public <T extends Component> void addComponent(T component)
     {
-    componentList.add(component);
+        componentList.add(component);
     }
 
     //tranform getter,setter

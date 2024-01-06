@@ -13,11 +13,41 @@ public class Face
 {
     private Vector3[] pointArr;
     private Vector3 normal;
+    private Vector3 edge1; //not used right now
+    private Vector3 edge2; //not used right now
+    
     public Face(Vector3[] pointArr, Vector3 normal)
     {
         this.pointArr = pointArr;
         this.normal = normal;
     }
     
-    //no getter and setter because when would i actually do that?
+    public Vector3 getPoint0()
+    {
+        return pointArr[0];
+    }
+    
+    //the edge vector2
+    public Vector3 getEdge1()
+    {
+        return pointArr[1].subtract(pointArr[0]);
+    }
+    public Vector3 getEdge2()
+    {
+        return pointArr[2].subtract(pointArr[0]);
+    }
+    
+    //the normal vector
+    public Vector3 getNormal()
+    {
+        Vector3 crossProd = this.getEdge1().crossProduct(this.getEdge2());
+        
+        //test code #TODO remove
+        if(crossProd.x != normal.x || crossProd.y != normal.y || crossProd.z != normal.z)
+        {
+            System.out.println("normal calculation dont matche works");
+        }
+        
+        return crossProd;
+    }
 }

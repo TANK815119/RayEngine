@@ -15,12 +15,14 @@ public class Transform extends Component
     //hierarchical variables
     private Transform parent;
     private ArrayList<Transform> childList;
+    private Scene scene;
     
     public Transform(GameObject gameObject, Vector3 pos, Vector3 rot)
     {
         super(gameObject);
         position = pos;
         rotation = rot;
+        childList = new ArrayList<Transform>();
     }
     public Transform(GameObject gameObject)
     {
@@ -28,7 +30,7 @@ public class Transform extends Component
     }
     
     //positional getter,sette
-    public Vector3 poisiton() { return position; }
+    public Vector3 position() { return position; }
     public void position(Vector3 pos) { position = pos; }
     public void position(float x, float y, float z) { position = new Vector3(x, y, z); }
     
@@ -46,7 +48,7 @@ public class Transform extends Component
     }
     
     //children getter,setter
-    public Transform child(int index) { return childList.get(index); }
+    public Transform getChild(int index) { return childList.get(index); }
     public void addChild(Transform child) { childList.add(child);
                                             child.parent(this); }
     public Transform removeChild(int index)
@@ -55,4 +57,10 @@ public class Transform extends Component
         temp.parent(null);
         return temp;
     }
+    public int numberOfChildren() { return childList.size(); }
+    
+    //scene getter,setter
+    public Scene getScene() { return scene; }
+
+    public void setScene(Scene s) { scene = s; }
 }
