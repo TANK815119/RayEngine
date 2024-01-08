@@ -33,11 +33,23 @@ public class Transform extends Component
     public Vector3 position() { return position; }
     public void position(Vector3 pos) { position = pos; }
     public void position(float x, float y, float z) { position = new Vector3(x, y, z); }
+    public void translate(float dx, float dy, float dz)
+    {
+        position.x += dx;
+        position.y += dy;
+        position.z += dz;
+    }
     
     //rotation getter,setter
     public Vector3 rotation() { return rotation; }
     public void rotation(Vector3 rot) { rotation = rot; }
     public void rotation(float x, float y, float z) { rotation = new Vector3(x, y, z); }
+    public void rotate(float dx, float dy, float dz)
+    {
+        rotation.x += dx;
+        rotation.y += dy;
+        rotation.z += dz;
+    }
     
     //parent getter,setter
     public Transform parent() { return parent; }

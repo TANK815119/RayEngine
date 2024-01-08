@@ -21,7 +21,6 @@ public class CubeMesh extends Mesh
             new Vector3(0f, -1f, 0f),
             new Vector3(0f, 0f, -1f),
         };
-        
         //use the normals of each face to generate said faces
         int faceIndex = 0;
         for(int i = 0; i < normalArr.length; i++)
@@ -33,30 +32,31 @@ public class CubeMesh extends Mesh
              // loop though the normal Vector3
             for(int j = 0; j < 3; j++)
             {
+                
                  // if the z, y, or z is not the normal direction
                 if(normalArr[i].get(j) == 0)
                 {
-                    //make a point that has a pso and neg of the unnasigned coordinate
-                    squareArr[squareIndex] = normalArr[i];
+                    //make a point that has a pos and neg of the unnasigned coordinate
+                    squareArr[squareIndex] = new Vector3(normalArr[i]);
                     squareArr[squareIndex].set(j, 1f);
                     squareIndex++;
-                    squareArr[squareIndex] = normalArr[i];
+                    squareArr[squareIndex] = new Vector3(normalArr[i]);
                     squareArr[squareIndex].set(j, -1f);
                     squareIndex++;
                 }
             }
             
-            //loop through and assign any zeros to 1, resulting in 4 variants
-            for(int j = 0; j < squareArr.length; j++)
-            {
-                for(int k = 0; k < 3; k++)
-                {
-                    if(squareArr[j].get(k) == 0)
-                    {
-                        squareArr[j].set(k, 1f);
-                    }
-                }
-            }
+            // //loop through and assign any zeros to 1, resulting in 4 variants
+            // for(int j = 0; j < squareArr.length; j++)
+            // {
+                // for(int k = 0; k < 3; k++)
+                // {
+                    // if(squareArr[j].get(k) == 0)
+                    // {
+                        // squareArr[j].set(k, 1f);
+                    // }
+                // }
+            // }
             
             //the 1st and 4th points are opposite
             //so are are the 2nd and 3rd
@@ -95,5 +95,13 @@ public class CubeMesh extends Mesh
         
         //then put that Face[] data for the CubeMesh in here
         this.setFaces(faceArr);
+        
+        //print out all the created data
+        for(int i = 0; i < faceArr.length; i++)
+        {
+            System.out.println("TRIANGLE " + i);
+            System.out.println(faceArr[i]);
+            System.out.println(faceArr[i].getNormal());
+        }
     }
 }

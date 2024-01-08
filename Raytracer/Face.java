@@ -18,6 +18,7 @@ public class Face
     
     public Face(Vector3[] pointArr, Vector3 normal)
     {
+        System.out.println(normal);
         this.pointArr = pointArr;
         this.normal = normal;
     }
@@ -30,10 +31,12 @@ public class Face
     //the edge vector2
     public Vector3 getEdge1()
     {
+        //System.out.println(pointArr[1] + " subtract " + pointArr[0]);
         return pointArr[1].subtract(pointArr[0]);
     }
     public Vector3 getEdge2()
     {
+        //System.out.println(pointArr[2] + " subtract " + pointArr[0]);
         return pointArr[2].subtract(pointArr[0]);
     }
     
@@ -41,13 +44,27 @@ public class Face
     public Vector3 getNormal()
     {
         Vector3 crossProd = this.getEdge1().crossProduct(this.getEdge2());
+        crossProd.normalize();
+        //System.out.println(this.getEdge1() + " cross prod " + this.getEdge2());
         
         //test code #TODO remove
         if(crossProd.x != normal.x || crossProd.y != normal.y || crossProd.z != normal.z)
         {
-            System.out.println("normal calculation dont matche works");
+            //System.out.println(normal + " does not match calc normal of " + crossProd);
+        }
+        else
+        {
+            //System.out.println("match");
         }
         
         return crossProd;
+    }
+    
+    public String toString()
+    {
+        String output = "";
+        output += "verticies: " + pointArr[0] + " " + pointArr[1] + " " + pointArr[2];
+        output += "\n" + "normal: " + normal;
+        return output;
     }
 }

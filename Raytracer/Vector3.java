@@ -15,6 +15,13 @@ public class Vector3
         this.y = y;
         this.z = z;
     }
+    
+    public Vector3(Vector3 other)
+    {
+        this.x = other.x;
+        this.y = other.y;
+        this.z = other.z;
+    }
 
     public Vector3()
     {
@@ -57,30 +64,52 @@ public class Vector3
             e.printStackTrace();
         }
     }
+    public String toString()
+    {
+        String output = "";
+        output += "(" + x + ", " + y + ", " + z + ")";
+        return output;
+    }
     
-    //matrix math shit @TODO
+    //matrix math
     public Vector3 add(Vector3 other)
     {
-        return new Vector3(0, 0, 0);
+        return new Vector3(this.x + other.x, this.y + other.y, this.z + other.z);
     }
     public Vector3 subtract(Vector3 other)
     {
-        return new Vector3(0, 0, 0);
+        return new Vector3(this.x - other.x, this.y - other.y, this.z - other.z);
     }
     public Vector3 multiply(Vector3 other)
     {
-        return new Vector3(0, 0, 0);
+        return new Vector3(this.x * other.x, this.y * other.y, this.z * other.z);
     }
     public Vector3 divide(Vector3 other)
     {
-        return new Vector3(0, 0, 0);
+        return new Vector3(this.x / other.x, this.y / other.y, this.z / other.z);
     }
     public float dotProduct(Vector3 other)
     {
-        return -1;
+        return this.x*other.y + this.y*other.y + this.z*other.z;
     }
     public Vector3 crossProduct(Vector3 other)
     {
-        return new Vector3(0, 0, 0);
+        float newX = this.y * other.z - this.z * other.y;
+        float newY = this.x * other.z - this.z * other.x;
+        float newZ = this.x * other.y - this.y * other.x;
+        return new Vector3(newX, newY, newZ);
+    }
+    public void normalize()
+    {
+        float lengthSquared = x * x + y * y + z * z;
+
+        if (lengthSquared == 0) {
+            return; // Vector is already normalized or has zero length
+        }
+
+        float invLength = 1 / (float) Math.sqrt(lengthSquared);
+        x *= invLength;
+        y *= invLength;
+        z *= invLength;
     }
 }

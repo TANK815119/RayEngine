@@ -25,7 +25,7 @@ public class Main
         //--make a cube object--
         GameObject cubeObject = new GameObject("My Object");
         scene.addRootGameObject(cubeObject);
-        cubeObject.addComponent(CubeMesh.class);
+        cubeObject.addComponent(PlaneMesh.class);
 
         //--make a camera object--
         GameObject cameraObject = new GameObject("My Object");
@@ -33,7 +33,7 @@ public class Main
         //manipulate the transformto look at the cube
         //ill have to think about what the fuck that actually means
         //like what direction is 0 rotation even looking?
-        cameraObject.transform().position(0f, 0f, 0f);
+        cameraObject.transform().position(-2f, 0f, 0f);
         cameraObject.transform().rotation(0f, 0f, 0f);
         //the more bare-bones addCompnent method may be efficient here
         //cameraObject.addComponent(Camera.class);
@@ -131,11 +131,37 @@ public class Main
 
         // Set the clear color (background color)
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
+        
+        //fun stugg
+        boolean flip = false;
+        
         // Main loop
         while (!glfwWindowShouldClose(window)) {
             // Render
             glClear(GL_COLOR_BUFFER_BIT);
+            
+            //rotate the camera a little
+            //camera.gameObject().transform().rotate(0.01f, 0.01f, 0.01f);
+            // System.out.println(camera.gameObject().transform().rotation());
+            
+            //move the camera a little
+            if(!flip)
+            {
+                //camera.gameObject().transform().translate(-0.1f * 1f, 0f, 0f);
+            }
+            else
+            {
+                //camera.gameObject().transform().translate(0.1f * 1f, 0, 0f);
+            }
+            if(camera.gameObject().transform().position().x <= -6)
+            {
+                flip = true;
+            }
+            if(camera.gameObject().transform().position().x >= 6)
+            {
+                flip = false;
+            }
+            //System.out.println(camera.gameObject().transform().position());
             
             
             render(camera, renderPipe.render(camera));
