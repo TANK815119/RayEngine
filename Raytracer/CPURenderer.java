@@ -1,6 +1,7 @@
 import java.awt.Color;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
+import java.util.ArrayList;
 
 /**
  * Write a description of class CPURenderer here.
@@ -52,7 +53,8 @@ public class CPURenderer implements Renderer
         //-45f to make sure left side of monitor shoots rays out left of the display towards the negative z direction
         float angleHori = (x * camera.getFOV() / width) - 45f + cameraRot.y;
         
-        float angleVert = (y * camera.getFOV() / height) - 45f + cameraRot.z;
+        //startrs at pos z rotation top and then paints down to the neg rotation at higher y  values
+        float angleVert = 45f - (y * camera.getFOV() / height) + cameraRot.z;
 
         //calculate the unit vector of the ray direction
         // 0 degrees = the positive x direction
@@ -66,6 +68,88 @@ public class CPURenderer implements Renderer
         //fetch all the mesh faces in the scene
         Face[] faces = cameraScene.getGeometry();
 
+        //pixelColor = intersectTriangles(rayDir, cameraPos, faces);
+
+        //fetch all the spheres in the scene
+        ArrayList<GameObject> sphereList = cameraScene.getGameObjectList(Sphere.class);
+
+        pixelColor = intersectSpheres(rayDir, cameraPos, sphereList);
+        
+        //check the intersection of array in middle of screen
+        Vector3 midVec = new Vector3(1f, 0f, 0f);
+        Vector3 difVec = midVec.subtract(rayDir);
+        if(Math.abs(difVec.dotProduct(difVec)) < EPSILON)
+        {
+            if(pixelColor.equals(new Color(0, 0, 0)))
+            {
+                System.out.println("intersection failed");
+            }
+            else
+            {
+                System.out.println("something else failed");
+            }
+        }
+        
+        return pixelColor;
+    }
+
+    private Color intersectSpheres(Vector3 rayDir, Vector3 cameraPos,ArrayList<GameObject> sphereList)
+    {
+        Color pixelColor = new Color(0, 0, 0);
+
+        //loop though the shpere objects for intersection testing
+        for(int i = 0; i < sphereList.size(); i++)
+        {
+            Vector3 spherePos = sphereList.get(i).transform().position();
+            float sphereRadius = sphereList.get(i).getComponent(Sphere.class).getRadius();
+
+            //formula to deetermine if a ray intersects with a sphere
+            //at*t + bt + x = 0
+            //t is the prameter along the ray
+            //a = rayDir . rayDir
+            //b = 2 * ((cameraPos - spherePos) . rayDir)
+            //c = (cameraPos - spherePos) . (cameraPos - spherePos)  -  sphereRadius * sphereRadius
+            Vector3 oc = cameraPos.subtract(spherePos); // vector from ray origin to sphere center
+            float a = rayDir.dotProduct(rayDir);
+            float b = oc.dotProduct(rayDir) * 2f;
+            float c = oc.dotProduct(oc) - (float)Math.pow(sphereRadius, 2);
+
+            //if the discriminate of the equation is < 0, there are no solutions
+            float discriminant = b*b - 4 * a * c;
+            if(discriminant < 0)
+            {
+                //let it loop
+                continue;
+            }
+
+            //t represents the value along the rayDir vector that the intersections occur
+            //i wont do that for now as all I needed to know was is there is an intesrsection
+            // Calculate solutions for t
+            float t1 = (-b - (float) Math.sqrt(discriminant)) / (2 * a);
+            float t2 = (-b + (float) Math.sqrt(discriminant)) / (2 * a);
+
+            // Return the minimum positive solution
+            if (t1 > 0 && (t2 <= 0 || t1 < t2)) {
+                //return t1;
+                pixelColor = new Color(255, 0, 0);
+                break; //early exit
+            } else if (t2 > 0) {
+                //return t2;
+                pixelColor = new Color(255, 0, 0);
+                break; //early exit
+            } else {
+                //return -1;
+                //let it loop
+                continue;
+            }
+        }
+
+        return pixelColor;
+    }
+
+    private Color intersectTriangles(Vector3 rayDir, Vector3 cameraPos, Face[] faces)
+    {
+        Color pixelColor = new Color(0, 0, 0);
         for(int i = 0; i < faces.length; i++)
         {
             //compute the determinant
@@ -74,7 +158,7 @@ public class CPURenderer implements Renderer
             faces[i].getNormal();
             //check for parralel rays(not super neccesary)
             //if the determinant is close to zero
-            
+
             if(Math.abs(det) < EPSILON)
             {
                 break;
@@ -105,7 +189,6 @@ public class CPURenderer implements Renderer
                 //System.out.println(u + " not hit " + v);
             }
         }
-
         return pixelColor;
     }
 

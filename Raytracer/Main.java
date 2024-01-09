@@ -26,6 +26,12 @@ public class Main
         GameObject cubeObject = new GameObject("My Object");
         scene.addRootGameObject(cubeObject);
         cubeObject.addComponent(PlaneMesh.class);
+        
+        //--make a sphere object--
+        GameObject sphereObject = new GameObject("My Object");
+        scene.addRootGameObject(sphereObject);
+        sphereObject.addComponent(Sphere.class);
+        sphereObject.getComponent(Sphere.class).setRadius(1.5f);
 
         //--make a camera object--
         GameObject cameraObject = new GameObject("My Object");
@@ -148,10 +154,12 @@ public class Main
             if(!flip)
             {
                 //camera.gameObject().transform().translate(-0.1f * 1f, 0f, 0f);
+                //camera.gameObject().transform().rotate(0.0f, 0.0f, -0.5f);
             }
             else
             {
                 //camera.gameObject().transform().translate(0.1f * 1f, 0, 0f);
+                //camera.gameObject().transform().rotate(0.0f, 0f, -0.5f);
             }
             if(camera.gameObject().transform().position().x <= -6)
             {
@@ -162,6 +170,7 @@ public class Main
                 flip = false;
             }
             //System.out.println(camera.gameObject().transform().position());
+            //System.out.println(camera.gameObject().transform().rotation());
             
             
             render(camera, renderPipe.render(camera));

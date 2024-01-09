@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.target=Sphere
+comment0.text=\r\n\ essentially\ just\ stores\ the\ radius\ of\ the\ sphere\r\n
+comment1.params=gameObject\ r
+comment1.target=Sphere(GameObject,\ float)
+comment2.params=gameObject
+comment2.target=Sphere(GameObject)
+comment3.params=r
+comment3.target=void\ setRadius(float)
+comment4.params=
+comment4.target=float\ getRadius()
+numComments=5
