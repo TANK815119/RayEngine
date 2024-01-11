@@ -48,11 +48,56 @@ public class CPURenderer implements Renderer
         Vector3 cameraRot = cameraTrans.rotation();
         Scene cameraScene = cameraTrans.getScene();
 
+        Vector3 rayDir = this.computeRayOrg(x, y, width, height, camera);
+
+        //return new Vector3(cameraPos.x, cameraPos.y, cameraPos.z).add(rayDirectionCameraSpace);
+        ArrayList<GameObject> sphereList = cameraScene.getGameObjectList(Sphere.class);
+        //new Vector3(cameraPos.x, cameraPos.y, cameraPos.z).add(rayDir)
+        pixelColor = intersectSpheres(rayDir, cameraPos, sphereList);
+
+        if(pixelColor.getRed() != 255)
+        {
+            //fetch all the mesh faces in the scene
+            Face[] faces = cameraScene.getGeometry();
+
+            pixelColor = intersectTriangles(rayDir, cameraPos, faces);
+        }
+
+        return pixelColor;
+    }
+
+    private Vector3 computeRayGPT(int x, int y, int width, int height, Camera camera)
+    {
+        // Calculate normalized device coordinates (NDC)
+        float ndcX = (2.0f * x) / width - 1.0f;
+        float ndcY = 1.0f - (2.0f * y) / height;
+
+        // Calculate the aspect ratio
+        float aspectRatio = (float) width / height;
+
+        // Calculate the ray direction in camera space
+        float tanFOV = (float) Math.tan(Math.toRadians(camera.getFOV() / 2.0));
+        float cameraSpaceX = ndcX * aspectRatio * tanFOV;
+        float cameraSpaceY = ndcY * tanFOV;
+
+        // Create a direction vector in camera space
+        Vector3 rayDirectionCameraSpace = new Vector3(cameraSpaceX, cameraSpaceY, -1.0f);
+        rayDirectionCameraSpace.normalize(); // Make sure the direction is normalized
+
+        return rayDirectionCameraSpace;
+    }
+
+    private Vector3 computeRayOrg(int x, int y, int width, int height, Camera camera)
+    {
+        Transform cameraTrans = camera.gameObject().transform();
+        Vector3 cameraPos = cameraTrans.position();
+        Vector3 cameraRot = cameraTrans.rotation();
+
         //actually shoot out rays
         //calculate the horizontal angle of the ray by adjusting the range, then addd player rotation
         //-45f to make sure left side of monitor shoots rays out left of the display towards the negative z direction
         float angleHori = (x * camera.getFOV() / width) - 45f + cameraRot.y;
-        
+
         //startrs at pos z rotation top and then paints down to the neg rotation at higher y  values
         float angleVert = 45f - (y * camera.getFOV() / height) + cameraRot.z;
 
@@ -65,32 +110,21 @@ public class CPURenderer implements Renderer
                 (float)Math.sin(Math.toRadians(angleHori)));
         rayDir.normalize(); //make the vector a length of one
 
-        //fetch all the mesh faces in the scene
-        Face[] faces = cameraScene.getGeometry();
-
-        //pixelColor = intersectTriangles(rayDir, cameraPos, faces);
-
-        //fetch all the spheres in the scene
-        ArrayList<GameObject> sphereList = cameraScene.getGameObjectList(Sphere.class);
-
-        pixelColor = intersectSpheres(rayDir, cameraPos, sphereList);
-        
-        //check the intersection of array in middle of screen
-        Vector3 midVec = new Vector3(1f, 0f, 0f);
-        Vector3 difVec = midVec.subtract(rayDir);
-        if(Math.abs(difVec.dotProduct(difVec)) < EPSILON)
-        {
-            if(pixelColor.equals(new Color(0, 0, 0)))
-            {
-                System.out.println("intersection failed");
-            }
-            else
-            {
-                System.out.println("something else failed");
-            }
-        }
-        
-        return pixelColor;
+        // //check the intersection of array in middle of screen
+        // Vector3 midVec = new Vector3(1f, 0f, 0f);
+        // Vector3 difVec = midVec.subtract(rayDir);
+        // if(Math.abs(difVec.dotProduct(difVec)) < EPSILON)
+        // {
+        // if(pixelColor.equals(new Color(0, 0, 0)))
+        // {
+        // System.out.println("intersection failed");
+        // }
+        // else
+        // {
+        // System.out.println("something else failed");
+        // }
+        // }
+        return rayDir;
     }
 
     private Color intersectSpheres(Vector3 rayDir, Vector3 cameraPos,ArrayList<GameObject> sphereList)
@@ -103,48 +137,70 @@ public class CPURenderer implements Renderer
             Vector3 spherePos = sphereList.get(i).transform().position();
             float sphereRadius = sphereList.get(i).getComponent(Sphere.class).getRadius();
 
-            //formula to deetermine if a ray intersects with a sphere
-            //at*t + bt + x = 0
-            //t is the prameter along the ray
-            //a = rayDir . rayDir
-            //b = 2 * ((cameraPos - spherePos) . rayDir)
-            //c = (cameraPos - spherePos) . (cameraPos - spherePos)  -  sphereRadius * sphereRadius
-            Vector3 oc = cameraPos.subtract(spherePos); // vector from ray origin to sphere center
-            float a = rayDir.dotProduct(rayDir);
-            float b = oc.dotProduct(rayDir) * 2f;
-            float c = oc.dotProduct(oc) - (float)Math.pow(sphereRadius, 2);
-
-            //if the discriminate of the equation is < 0, there are no solutions
-            float discriminant = b*b - 4 * a * c;
-            if(discriminant < 0)
+            if(isIntersection(rayDir, cameraPos, spherePos, sphereRadius))
             {
-                //let it loop
-                continue;
+                pixelColor = new Color(255, 0, 0);
             }
 
-            //t represents the value along the rayDir vector that the intersections occur
-            //i wont do that for now as all I needed to know was is there is an intesrsection
-            // Calculate solutions for t
-            float t1 = (-b - (float) Math.sqrt(discriminant)) / (2 * a);
-            float t2 = (-b + (float) Math.sqrt(discriminant)) / (2 * a);
+            // //formula to deetermine if a ray intersects with a sphere
+            // //at*t + bt + x = 0
+            // //t is the prameter along the ray
+            // //a = rayDir . rayDir
+            // //b = 2 * ((cameraPos - spherePos) . rayDir)
+            // //c = (cameraPos - spherePos) . (cameraPos - spherePos)  -  sphereRadius * sphereRadius
+            // Vector3 oc = cameraPos.subtract(spherePos); // vector from ray origin to sphere center
+            // float a = rayDir.dotProduct(rayDir);
+            // float b = oc.dotProduct(rayDir) * 2f;
+            // float c = oc.dotProduct(oc) - (float)Math.pow(sphereRadius, 2);
 
-            // Return the minimum positive solution
-            if (t1 > 0 && (t2 <= 0 || t1 < t2)) {
-                //return t1;
-                pixelColor = new Color(255, 0, 0);
-                break; //early exit
-            } else if (t2 > 0) {
-                //return t2;
-                pixelColor = new Color(255, 0, 0);
-                break; //early exit
-            } else {
-                //return -1;
-                //let it loop
-                continue;
-            }
+            // //if the discriminate of the equation is < 0, there are no solutions
+            // float discriminant = b*b - 4 * a * c;
+            // if(discriminant < 0)
+            // {
+            // //let it loop
+            // continue;
+            // }
+
+            // //t represents the value along the rayDir vector that the intersections occur
+            // //i wont do that for now as all I needed to know was is there is an intesrsection
+            // // Calculate solutions for t
+            // float t1 = (-b - (float) Math.sqrt(discriminant)) / (2 * a);
+            // float t2 = (-b + (float) Math.sqrt(discriminant)) / (2 * a);
+
+            // // Return the minimum positive solution
+            // if (t1 > 0 && (t2 <= 0 || t1 < t2)) {
+            // //return t1;
+            // pixelColor = new Color(255, 0, 0);
+            // break; //early exit
+            // } else if (t2 > 0) {
+            // //return t2;
+            // pixelColor = new Color(255, 0, 0);
+            // break; //early exit
+            // } else {
+            // //return -1;
+            // //let it loop
+            // continue;
+            // }
         }
 
         return pixelColor;
+    }
+
+    private static boolean isIntersection(Vector3 rayDir, Vector3 cameraPos, Vector3 spherePos, float sphereRadius) {
+        // Vector from the camera position to the sphere position
+        Vector3 cameraToSphere = spherePos.subtract(cameraPos);
+
+        // Calculate the distance along the ray direction to the point closest to the sphere
+        float t = cameraToSphere.dotProduct(rayDir);
+
+        // Calculate the closest point on the ray to the sphere
+        Vector3 closestPoint = cameraPos.add(rayDir.multiply(t));
+
+        // Calculate the distance between the closest point and the sphere center
+        float distanceToSphereCenter = closestPoint.subtract(spherePos).magnitude();
+
+        // Check if the distance to the sphere center is less than or equal to the sphere radius
+        return distanceToSphereCenter <= sphereRadius;
     }
 
     private Color intersectTriangles(Vector3 rayDir, Vector3 cameraPos, Face[] faces)

@@ -3,6 +3,8 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWKeyCallback;
 import java.awt.Color;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -25,13 +27,19 @@ public class Main
         //--make a cube object--
         GameObject cubeObject = new GameObject("My Object");
         scene.addRootGameObject(cubeObject);
-        cubeObject.addComponent(PlaneMesh.class);
-        
+        cubeObject.addComponent(TriMesh.class);
+
         //--make a sphere object--
-        GameObject sphereObject = new GameObject("My Object");
+        GameObject sphereObject = new GameObject("sphere");
         scene.addRootGameObject(sphereObject);
         sphereObject.addComponent(Sphere.class);
-        sphereObject.getComponent(Sphere.class).setRadius(1.5f);
+        sphereObject.getComponent(Sphere.class).setRadius(0.25f);
+        //--make a sphere2 object--
+        GameObject sphere2Object = new GameObject("sphere");
+        scene.addRootGameObject(sphere2Object);
+        sphere2Object.addComponent(Sphere.class);
+        sphere2Object.getComponent(Sphere.class).setRadius(0.25f);
+        sphere2Object.transform().translate(0f, 0f, -2f);
 
         //--make a camera object--
         GameObject cameraObject = new GameObject("My Object");
@@ -39,8 +47,8 @@ public class Main
         //manipulate the transformto look at the cube
         //ill have to think about what the fuck that actually means
         //like what direction is 0 rotation even looking?
-        cameraObject.transform().position(-2f, 0f, 0f);
-        cameraObject.transform().rotation(0f, 0f, 0f);
+        cameraObject.transform().position(0f, 0f, 3f);
+        cameraObject.transform().rotation(0f, 90f, 0f);
         //the more bare-bones addCompnent method may be efficient here
         //cameraObject.addComponent(Camera.class);
         //I fucking hate the way the getComponent format is looking
@@ -55,7 +63,7 @@ public class Main
         // put something here like
         // <graphicsAPI>.set(renderPipe.GPUCPURender(camera));
 
-        initWindow(camera, renderPipe);
+        init(camera, renderPipe);
     }
 
     private static void drawQuad(float x, float y, float width, float height, float r, float g, float b) {
@@ -69,7 +77,7 @@ public class Main
 
         GL11.glEnd();
     }
-    
+
     private static void render(Camera camera, int[] pixelBuffer)
     {
         //this must all be re-written
@@ -77,29 +85,29 @@ public class Main
         float width = camera.getPixelWidth();
         int bufferIndex = 0;
         GL11.glBegin(GL11.GL_POINTS);
-        
+
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 //assign color from buffer
                 Vector3 vec = RenderingPipeline.colorToVector(pixelBuffer[bufferIndex]);
                 GL11.glColor3f(vec.x, vec.y, vec.z);
-                
+
                 //assign texture position with the index and some math
                 //first get to range of two, then subtract 1 to get range [-1, 1]
                 //i could maybe throw an error here, but I wont cause my math is perfect
                 float textureY = ((float)y / (height/2)) - 1;
                 float textureX = ((float)x / (width/2)) - 1;
                 GL11.glVertex2f(textureX, textureY);
-                
+
                 bufferIndex++;
             }
         }
-        
+
         GL11.glEnd();
         //Renderer.renderCPU(camera);
     }
-    
-    private static void initWindow(Camera camera, RenderingPipeline renderPipe)
+
+    private static void init(Camera camera, RenderingPipeline renderPipe)
     {
         // Initialize GLFW
         GLFWErrorCallback errorCallback;
@@ -137,49 +145,96 @@ public class Main
 
         // Set the clear color (background color)
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        
-        //fun stugg
-        boolean flip = false;
-        
+
+        // Create key callback
+        // GLFWKeyCallback keyCallback = new GLFWKeyCallback() {
+                // @Override
+                // public void invoke(long window, int key, int scancode, int action, int mods) {
+                    // // Handle key events here
+                    // if (key == GLFW.GLFW_KEY_SPACE && action == GLFW.GLFW_PRESS) {
+                        // // Close the window or perform other actions
+                    // }
+                // }
+            // };
+
+        // // Set the key callback
+        // GLFW.glfwSetKeyCallback(window, keyCallback);
+
         // Main loop
         while (!glfwWindowShouldClose(window)) {
             // Render
             glClear(GL_COLOR_BUFFER_BIT);
-            
+
             //rotate the camera a little
             //camera.gameObject().transform().rotate(0.01f, 0.01f, 0.01f);
             // System.out.println(camera.gameObject().transform().rotation());
+            Transform sphereTrans = camera.gameObject().transform()
+                .getScene().getRootGameObject("sphere").transform();
+            Transform cameraTrans = camera.gameObject().transform();
             
+            //some camera math for look-based movement
+            float cosMult = (float)Math.cos(Math.toRadians(cameraTrans.rotation().y));
+            float sinMult = (float)Math.sin(Math.toRadians(cameraTrans.rotation().y));
             //move the camera a little
-            if(!flip)
+            if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
             {
-                //camera.gameObject().transform().translate(-0.1f * 1f, 0f, 0f);
-                //camera.gameObject().transform().rotate(0.0f, 0.0f, -0.5f);
+                camera.gameObject().transform().translate(-0.1f * cosMult, 0f, -0.1f * sinMult);
             }
-            else
+            if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
             {
-                //camera.gameObject().transform().translate(0.1f * 1f, 0, 0f);
-                //camera.gameObject().transform().rotate(0.0f, 0f, -0.5f);
+                camera.gameObject().transform().translate(0.1f * cosMult, 0f, 0.1f * sinMult);
             }
-            if(camera.gameObject().transform().position().x <= -6)
+            if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
             {
-                flip = true;
+                camera.gameObject().transform().translate(-0.1f * sinMult, 0f, 0.1f * cosMult);
             }
-            if(camera.gameObject().transform().position().x >= 6)
+            if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
             {
-                flip = false;
+                camera.gameObject().transform().translate(0.1f * sinMult, 0f, -0.1f * cosMult);
             }
-            //System.out.println(camera.gameObject().transform().position());
-            //System.out.println(camera.gameObject().transform().rotation());
+            if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+            {
+                camera.gameObject().transform().rotate(0f, -5f, 0f);
+            }
+            if(glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+            {
+                camera.gameObject().transform().rotate(0f, 5f, 0f);
+            }
+            if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+            {
+                camera.gameObject().transform().rotate(0f, 0f, -5f);
+            }
+            if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+            {
+                camera.gameObject().transform().rotate(0f, 0f, 5f);
+            }
+            if(glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+            {
+                camera.gameObject().transform().translate(0f, 0.1f, 0f);
+            }
+            if(glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+            {
+                camera.gameObject().transform().translate(0f, -0.1f, 0f);
+            }
             
-            
-            render(camera, renderPipe.render(camera));
+            if(glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
+            {
+                sphereTrans.translate(0f, 0.1f, 0f);
+            }
+            if(glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
+            {
+                sphereTrans.translate(0f, -0.1f, 0f);
+            }
+            System.out.println("position: " + camera.gameObject().transform().position());
+            System.out.println("roatation: " + camera.gameObject().transform().rotation());
 
+            render(camera, renderPipe.render(camera));
             // Swap buffers and poll events
             glfwSwapBuffers(window);
             glfwPollEvents();
         }
-
+        //keyCallback.free();
+        //mouseButtonCallback.free();
         // Terminate GLFW
         glfwTerminate();
     }
